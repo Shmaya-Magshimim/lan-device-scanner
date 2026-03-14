@@ -1,14 +1,19 @@
 # import subprocess
+import subprocess
 import netifaces
 import ipaddress
 import xmltodict
 import re
 from .device_guesser import guess_device_category
-from .types import DeviceInfo, MacAddressInfo, OSInfo, UptimeInfo, PortInfo, DeviceAnalysisInfo
-from db_writer import save_scan_results_to_db
+from .types import DeviceInfo, MacAddressInfo, OSInfo, ScanInfo, UptimeInfo, PortInfo, DeviceAnalysisInfo
 
 
-def scan_network() -> None:
+def scan_network() -> ScanInfo:
+
+    result = subprocess.check_output("netsh wlan show interfaces", shell=True).decode()
+    ssid = re.search(r"^\s*SSID\s*:\s*(.+)$", result, re.MULTILINE)
+    ssid = ssid.group(1).strip() if ssid else "Unknown"
+
     default_gateway = netifaces.gateways()
     # Grab the tuple for the default IPv4 gateway
     gw_info = default_gateway["default"][netifaces.AF_INET]
@@ -18,28 +23,28 @@ def scan_network() -> None:
     network = ipaddress.IPv4Network(f"{gateway_ip}/{netmask}", strict=False)
     # subprocess.run(["nmap", "-O", "-sV", "-oX", "scan.xml", str(network)])
 
-    print("Scan finished")
-
     with open("scan.xml") as file:
         content = file.read()
 
     time_stamp = re.search(r"scan initiated(.*?) as", content)
     if time_stamp:
-        print(time_stamp)
+        timestamp_str = time_stamp.group(1).strip()
+    else:
+        timestamp_str = "Unknown"
 
     host_blocks = re.findall(r"(<host starttime=.*?</host>)", content, re.DOTALL)
 
     host_list = []
-    print("The amount of hosts is: ", len(host_blocks))
     for host_data in host_blocks:
-        host = make_host_into_datatype(host_data)
+        host = make_host_into_datatype(host_data, timestamp_str)
         host_list.append(host)
+
+    return ScanInfo(timestamp=timestamp_str, ssid=ssid, devices=host_list)
 
 
 # Function gets xml host input, returns dict of all required info.
-def make_host_into_datatype(host_block: str) -> DeviceInfo:
+def make_host_into_datatype(host_block: str, timestamp: str) -> DeviceInfo:
     data = xmltodict.parse(host_block)
-    print(data)
 
     try:
         mac_addresss = data["host"]["address"][1]["@addr"]

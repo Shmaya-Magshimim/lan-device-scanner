@@ -1,11 +1,19 @@
 from typing import List
 from sqlalchemy.orm import Session
 from ..api import DeviceCreate, PortCreate, ScanCreate
-from .models import Port, Device, Scans
+from .models import Port, Device, Scan
 
 
-def save_device(db: Session, device: DeviceCreate) -> Device:
-    db_device = Device(**device.model_dump())
+def save_scan_session(db: Session, scanSession: ScanCreate) -> Scan:
+    db_scan = Scan(**scanSession.model_dump())
+    db.add(db_scan)
+    db.commit()
+    db.refresh(db_scan)
+    return db_scan
+
+
+def save_device(db: Session, device: DeviceCreate, scan_id: int) -> Device:
+    db_device = Device(**device.model_dump(), scan_id=scan_id)
     db.add(db_device)
     db.commit()
     db.refresh(db_device)
@@ -32,8 +40,8 @@ def get_ports_by_device_id(db: Session, device_id: int) -> list:
     return db.query(Port).filter(Port.device_id == device_id).all()
 
 
-def create_scan(db: Session, scan: ScanCreate) -> Scans:
-    db_scan = Scans(**scan.model_dump())
+def create_scan(db: Session, scan: ScanCreate) -> Scan:
+    db_scan = Scan(**scan.model_dump())
     db.add(db_scan)
     db.commit()
     db.refresh(db_scan)

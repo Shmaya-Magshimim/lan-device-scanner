@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -39,7 +40,14 @@ class DeviceInfo:
     state: str
     ip_addr: tuple
     mac: MacAddressInfo
-    ports: list  # A list of all portInfo data class
+    ports: List[PortInfo]  # A list of all portInfo data class
     os: OSInfo
     uptime: UptimeInfo
     device_analysis: DeviceAnalysisInfo
+
+
+@dataclass
+class ScanInfo:
+    timestamp: str
+    ssid: str
+    devices: List[DeviceInfo]

@@ -1,7 +1,10 @@
+from typing import List
+from .types import PortInfo
+
 CATEGORIES = ["Server", "IOT", "Mobile", "PC", "Router"]
 
 
-def guess_device_category(mac_vendor: str, os_name: str, ports: list, uptime_seconds: float) -> "tuple[str, float]":
+def guess_device_category(mac_vendor: str, os_name: str, ports: List[PortInfo], uptime_seconds: float) -> "tuple[str, float]":
     scores = {c: 0.0 for c in CATEGORIES}
     if mac_vendor != "Unknown":
         scores = mac_vendor_guess(mac_vendor, scores)
@@ -48,7 +51,7 @@ def uptime_guess(uptime_seconds: float, scores: dict) -> dict:
     return scores
 
 
-def port_id_guess(ports: list, scores: dict) -> dict:
+def port_id_guess(ports: List[PortInfo], scores: dict) -> dict:
     PORT_RULES = {
         135: {"PC": 0.8, "Server": 0.2},
         137: {"PC": 0.7, "Server": 0.3},
@@ -80,7 +83,7 @@ def port_id_guess(ports: list, scores: dict) -> dict:
     }
 
     for port in ports:
-        port_id = port.id
+        port_id = port.number
         if port_id in PORT_RULES:
             for category, prob in PORT_RULES[port_id].items():
                 scores[category] += prob

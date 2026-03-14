@@ -45,6 +45,7 @@ class Port(PortBase):
 
 class ScanBase(BaseModel):
     timestamp: str
+    ssid: str
 
 
 class ScanCreate(ScanBase):
@@ -55,4 +56,4 @@ class Scan(ScanBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

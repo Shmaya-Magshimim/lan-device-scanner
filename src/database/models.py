@@ -5,17 +5,20 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 
-class Scans(Base):
+class Scan(Base):
     __tablename__ = "scans"
 
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(String, index=True)
+    ssid = Column(String, index=True)
+    devices = relationship("Device", back_populates="scan")
 
 
 class Device(Base):
     __tablename__ = "devices"
 
     id = Column(Integer, primary_key=True, index=True)
+    scan_id = Column(Integer, ForeignKey("scans.id"), index=True)
     state = Column(String, index=True)
     ip4 = Column(String, index=True)
     mac = Column(String, index=True)
@@ -27,6 +30,7 @@ class Device(Base):
     device_guess_accuracy = Column(String, index=True)
 
     ports = relationship("Port", back_populates="device")
+    scan = relationship("Scan", back_populates="devices")
 
 
 class Port(Base):
