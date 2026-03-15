@@ -97,6 +97,7 @@ If you want to run or modify the project locally without Docker:
 ---
 
 1. **Install Python 3.11 (add it to your PATH)**
+   
 https://www.python.org/ftp/python/pymanager/python-manager-26.0.msix
 
 2. **Install Poetry**
