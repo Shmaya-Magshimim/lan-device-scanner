@@ -3,6 +3,7 @@ import subprocess
 import netifaces
 import ipaddress
 import xmltodict
+import platform
 import re
 from .device_guesser import guess_device_category
 from .types import DeviceInfo, MacAddressInfo, OSInfo, ScanInfo, UptimeInfo, PortInfo, DeviceAnalysisInfo
@@ -10,9 +11,7 @@ from .types import DeviceInfo, MacAddressInfo, OSInfo, ScanInfo, UptimeInfo, Por
 
 def scan_network() -> ScanInfo:
 
-    result = subprocess.check_output("netsh wlan show interfaces", shell=True).decode()
-    ssid = re.search(r"^\s*SSID\s*:\s*(.+)$", result, re.MULTILINE)
-    ssid = ssid.group(1).strip() if ssid else "Unknown"
+    ssid = get_ssid()
 
     default_gateway = netifaces.gateways()
     # Grab the tuple for the default IPv4 gateway
@@ -21,7 +20,7 @@ def scan_network() -> ScanInfo:
     gateway_ip, default_interface = gw_info[:2]
     netmask = netifaces.ifaddresses(default_interface)[netifaces.AF_INET][0]["netmask"]
     network = ipaddress.IPv4Network(f"{gateway_ip}/{netmask}", strict=False)
-    # subprocess.run(["nmap", "-O", "-sV", "-oX", "scan.xml", str(network)])
+    subprocess.run(["nmap", "-O", "-sV", "-oX", "scan.xml", str(network)])
 
     with open("scan.xml") as file:
         content = file.read()
@@ -40,6 +39,21 @@ def scan_network() -> ScanInfo:
         host_list.append(host)
 
     return ScanInfo(timestamp=timestamp_str, ssid=ssid, devices=host_list, status="Completed")
+
+
+def get_ssid() -> str:
+    if platform.system() == "Windows":
+        result = subprocess.check_output("netsh wlan show interfaces", shell=True).decode()
+        match = re.search(r"^\s*SSID\s*:\s*(.+)$", result, re.MULTILINE)
+        return match.group(1).strip() if match else "Unknown"
+    elif platform.system() == "Linux":
+        try:
+            result = subprocess.check_output("iwgetid -r", shell=True).decode().strip()
+            return result if result else "Unknown"
+        except subprocess.CalledProcessError:
+            return "Unknown"
+    else:
+        return "Unknown"
 
 
 # Function gets xml host input, returns dict of all required info.
