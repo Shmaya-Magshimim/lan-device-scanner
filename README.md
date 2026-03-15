@@ -20,7 +20,7 @@ This project is fully portable across Linux-based environments and can be easily
 ---
 
 ## Features
-- Scan the network your device is connected to and discover all devices\
+- Scan the network your device is connected to and discover all devices
 - View historical scans saved in the database for tracking and analysis
 - Retrieve detailed information for individual devices from any scan
 - Analyze devices using a built-in algorithm that predicts categories and other attributes based on gathered data
