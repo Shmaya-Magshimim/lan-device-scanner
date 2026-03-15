@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
-from ...database import get_db, get_device, get_devices_by_scan_id, get_ports_by_device_id, Device, Port  # type : ignore
+from ...database import get_db, get_device, get_devices_by_scan_id, get_ports_by_device_id, Device, Port  # type: ignore
 from ..schemas import DeviceSummary, DeviceDetails, PortDetails
 
 router = APIRouter(prefix="/devices", tags=["devices"])
