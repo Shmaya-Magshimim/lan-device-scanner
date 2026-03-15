@@ -19,6 +19,7 @@ class DeviceCreate(DeviceBase):
 
 
 class DeviceSummary(BaseModel):
+    id: int
     ip4: str
     mac: str
     device_guess: str
