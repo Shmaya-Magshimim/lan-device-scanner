@@ -16,7 +16,7 @@ netifaces = "*"
 xmltodict = "*"
 pydantic = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 ruff = "*"
 
 [build-system]
