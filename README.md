@@ -117,5 +117,22 @@ uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 
 5. **Access the API**
 API root: http://localhost:8000  
-Interactive docs: http://localhost:8000/docs  
+Interactive docs: http://localhost:8000/docs
 
+## License
+
+This project is licensed under the **MIT License**.  
+
+You are free to **use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies** of this software, subject to the following conditions:
+
+- The above copyright notice and this permission notice must be included in all copies or substantial portions of the software.
+- The software is provided "**as is**", without warranty of any kind, express or implied.
+
+---
+
+## Contact
+
+If you have any questions, suggestions, or issues, feel free to reach out:
+
+- **Email:** shmayaky@gmail.com  
+- **GitHub:** [https://github.com/Shmaya-Magshimim](https://github.com/Shmaya-Magshimim)  
