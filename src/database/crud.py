@@ -1,6 +1,6 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from ..api import DeviceCreate, PortCreate, ScanCreate
+from ..api import DeviceCreate, PortCreate, ScanCreate  # type: ignore
 from .models import Port, Device, Scan
 
 
@@ -26,22 +26,6 @@ def save_ports(db: Session, ports: List[PortCreate], device_id: int) -> None:
         db.add(db_port)
 
     db.commit()
-
-
-def get_device(db: Session, device_id: int) -> Optional[Device]:
-    return db.query(Device).filter(Device.id == device_id).first()
-
-
-def get_ports_by_device_id(db: Session, device_id: int) -> list:
-    return db.query(Port).filter(Port.device_id == device_id).all()
-
-
-def create_scan(db: Session, scan: ScanCreate) -> Scan:
-    db_scan = Scan(**scan.model_dump())
-    db.add(db_scan)
-    db.commit()
-    db.refresh(db_scan)
-    return db_scan
 
 
 def get_scans(db: Session, skip: int = 0, limit: int = 10) -> List[Scan]:
@@ -74,3 +58,15 @@ def update_scan(db: Session, scan_id: int, scan_update: ScanCreate) -> Optional[
     db.refresh(scan)
 
     return scan
+
+
+def get_devices_by_scan_id(db: Session, scan_id: int) -> List[Device]:
+    return db.query(Device).filter(Device.scan_id == scan_id).all()
+
+
+def get_device(db: Session, device_id: int) -> Optional[Device]:
+    return db.query(Device).filter(Device.id == device_id).first()
+
+
+def get_ports_by_device_id(db: Session, device_id: int) -> List[Port]:
+    return db.query(Port).filter(Port.device_id == device_id).all()
