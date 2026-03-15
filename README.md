@@ -6,22 +6,24 @@
 
 ## About The Project
 
-**LAN Device Scanner** is a lightweight network device scanning API built with FastAPI, Poetry, and Docker. It automatically detects devices on your local network and provides structured data including:
+**LAN Device Scanner** is a lightweight, containerized network device scanning API built with FastAPI, Poetry, and Docker. It automatically detects devices on your local network, stores scan results in a database, and provides detailed, structured information including:
 
 - IP addresses
-- MAC addresses and vendor info
-- OS guesses with accuracy
-- Open ports and services
-- Device uptime and last boot
-- Device category guesses
+- MAC addresses and vendor information
+- Operating system guesses with confidence levels
+- Open ports and running services
+- Device uptime and last boot time
+- Device category predictions
 
-This project is fully containerized and works across Linux-based environments, making it portable and easy to deploy.
+This project is fully portable across Linux-based environments and can be easily deployed using Docker.
 
-**Why this project exists:**
+---
 
-- You shouldn’t waste time writing repeated scanning scripts.  
-- You need a DRY, reproducible, and fully containerized solution for network device scanning.  
-- It provides structured API access to device information for further integration or analysis.
+## Features
+- Scan the network your device is connected to and discover all devices\
+- View historical scans saved in the database for tracking and analysis
+- Retrieve detailed information for individual devices from any scan
+- Analyze devices using a built-in algorithm that predicts categories and other attributes based on gathered data
 
 ---
 
@@ -118,21 +120,3 @@ uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 5. **Access the API**
 API root: http://localhost:8000  
 Interactive docs: http://localhost:8000/docs
-
-## License
-
-This project is licensed under the **MIT License**.  
-
-You are free to **use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies** of this software, subject to the following conditions:
-
-- The above copyright notice and this permission notice must be included in all copies or substantial portions of the software.
-- The software is provided "**as is**", without warranty of any kind, express or implied.
-
----
-
-## Contact
-
-If you have any questions, suggestions, or issues, feel free to reach out:
-
-- **Email:** shmayaky@gmail.com  
-- **GitHub:** [https://github.com/Shmaya-Magshimim](https://github.com/Shmaya-Magshimim)  
