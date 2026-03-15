@@ -1,15 +1,8 @@
 from sqlalchemy.orm import Session
-
 from ..api import DeviceCreate, PortCreate, ScanCreate
 from .types import DeviceInfo, PortInfo, ScanInfo
-from ..database import save_device, save_ports, save_scan_session
+from ..database import save_device, save_ports
 from typing import List
-
-
-def save_scan_results_to_db(db: Session, scanSession: ScanInfo) -> None:
-    scan_schema = convert_scan_to_schema(scanSession)
-    db_scan = save_scan_session(db, scan_schema)
-    save_device_results_to_db(db, scanSession.devices, getattr(db_scan, "id"))  # Save the scan session and get the saved instance with ID
 
 
 def save_device_results_to_db(db: Session, devices: List[DeviceInfo], scan_id: int) -> None:
@@ -42,5 +35,5 @@ def convert_ports_to_schema(ports: List[PortInfo]) -> List[PortCreate]:
     return [PortCreate(**vars(p)) for p in ports]
 
 
-def convert_scan_to_schema(scanSession: ScanInfo) -> ScanCreate:
-    return ScanCreate(timestamp=scanSession.timestamp, ssid=scanSession.ssid)
+def convert_scan_to_schema(scan_session: ScanInfo) -> ScanCreate:
+    return ScanCreate(timestamp=scan_session.timestamp, ssid=scan_session.ssid, status=scan_session.status)

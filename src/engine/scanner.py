@@ -39,7 +39,7 @@ def scan_network() -> ScanInfo:
         host = make_host_into_datatype(host_data, timestamp_str)
         host_list.append(host)
 
-    return ScanInfo(timestamp=timestamp_str, ssid=ssid, devices=host_list)
+    return ScanInfo(timestamp=timestamp_str, ssid=ssid, devices=host_list, status="Completed")
 
 
 # Function gets xml host input, returns dict of all required info.

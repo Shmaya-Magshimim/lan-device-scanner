@@ -11,6 +11,7 @@ class Scan(Base):
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(String, index=True)
     ssid = Column(String, index=True)
+    status = Column(String, index=True)
     devices = relationship("Device", back_populates="scan")
 
 

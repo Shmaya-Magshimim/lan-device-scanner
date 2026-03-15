@@ -1,14 +1,10 @@
-from src.engine.scanner import scan_network
-from src.database import get_db
-from src.engine.db_writer import save_scan_results_to_db
+from fastapi import FastAPI
+from src.api import scans, RootResponse
+
+app = FastAPI(title="Device Scanner API", description="API to scan networks and retrieve scan results", version="1.0.0")
+app.include_router(scans.router)
 
 
-def main() -> None:
-    print("Starting device scanner...")
-    scanSession = scan_network()
-    with get_db() as db:
-        save_scan_results_to_db(db, scanSession)
-
-
-if __name__ == "__main__":
-    main()
+@app.get("/", response_model=RootResponse)
+def root() -> dict:
+    return {"message": "Device Scanner API is running"}

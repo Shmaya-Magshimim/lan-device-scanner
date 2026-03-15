@@ -50,4 +50,5 @@ class DeviceInfo:
 class ScanInfo:
     timestamp: str
     ssid: str
+    status: str
     devices: List[DeviceInfo]

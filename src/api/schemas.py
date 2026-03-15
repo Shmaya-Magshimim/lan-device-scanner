@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class DeviceBase(BaseModel):
@@ -17,7 +18,16 @@ class DeviceCreate(DeviceBase):
     pass
 
 
-class Device(DeviceBase):
+class DeviceSummary(BaseModel):
+    ip4: str
+    mac: str
+    device_guess: str
+
+    class Config:
+        from_attributes = True
+
+
+class DeviceDetails(DeviceBase):
     id: int
 
     class Config:
@@ -36,7 +46,7 @@ class PortCreate(PortBase):
     pass
 
 
-class Port(PortBase):
+class PortDetails(PortBase):
     id: int
 
     class Config:
@@ -46,14 +56,27 @@ class Port(PortBase):
 class ScanBase(BaseModel):
     timestamp: str
     ssid: str
+    status: str
 
 
 class ScanCreate(ScanBase):
     pass
 
 
-class Scan(ScanBase):
+class ScanSummary(ScanBase):
     id: int
 
     class Config:
         from_attributes = True
+
+
+class ScanDetails(ScanBase):
+    id: int
+    devices: List[DeviceSummary]
+
+    class Config:
+        from_attributes = True
+
+
+class RootResponse(BaseModel):
+    message: str

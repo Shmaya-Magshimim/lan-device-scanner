@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy.orm import Session
 from ..api import DeviceCreate, PortCreate, ScanCreate
 from .models import Port, Device, Scan
@@ -28,12 +28,8 @@ def save_ports(db: Session, ports: List[PortCreate], device_id: int) -> None:
     db.commit()
 
 
-def get_device(db: Session, device_id: int) -> Device:
+def get_device(db: Session, device_id: int) -> Optional[Device]:
     return db.query(Device).filter(Device.id == device_id).first()
-
-
-def get_devices(db: Session, skip: int = 0, limit: int = 100) -> list:
-    return db.query(Device).offset(skip).limit(limit).all()
 
 
 def get_ports_by_device_id(db: Session, device_id: int) -> list:
@@ -46,3 +42,35 @@ def create_scan(db: Session, scan: ScanCreate) -> Scan:
     db.commit()
     db.refresh(db_scan)
     return db_scan
+
+
+def get_scans(db: Session, skip: int = 0, limit: int = 10) -> List[Scan]:
+    return db.query(Scan).order_by(Scan.timestamp.desc()).offset(skip).limit(limit).all()
+
+
+def get_scan(db: Session, scan_id: int) -> Optional[Scan]:
+    return db.query(Scan).filter(Scan.id == scan_id).first()
+
+
+def create_scan_placeholder(db: Session) -> Scan:
+    placeholder_scan = Scan(timestamp="Pending", ssid="Pending", status="In Progress")
+    db.add(placeholder_scan)
+    db.commit()
+    db.refresh(placeholder_scan)
+    return placeholder_scan
+
+
+def update_scan(db: Session, scan_id: int, scan_update: ScanCreate) -> Optional[Scan]:
+    scan = get_scan(db, scan_id)
+    if scan is None:
+        return None
+
+    update_data = scan_update.model_dump(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(scan, key, value)
+
+    db.commit()
+    db.refresh(scan)
+
+    return scan

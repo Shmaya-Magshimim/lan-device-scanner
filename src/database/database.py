@@ -14,14 +14,18 @@ if not DATABASE_URL:
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base.metadata.create_all(bind=engine)
 
 
 @contextmanager
-def get_db() -> Generator[Session, None, None]:
+def db_context() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
+
+def get_db() -> Generator[Session, None, None]:
+    with db_context() as db:
+        yield db

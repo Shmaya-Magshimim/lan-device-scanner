@@ -1,18 +1,24 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "device-scanner"
 version = "0.1.0"
-description = "A device scanner application"
+description = "A network device scanner API using FastAPI and SQLAlchemy"
+authors = ["Shmaya Peskin <shmayaky@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.8"
-authors = [{ name = "Shmaya Peskin", email = "shmayaky@gmail.com" }]
-dependencies = ["xmltodict", "sqlalchemy", "netifaces", "python-dotenv"]
+packages = [{ include = "src" }]
 
-[project.optional-dependencies]
-dev = ["pytest>=7.0", "ruff", "pylint"]
+[tool.poetry.dependencies]
+python = ">=3.11"
+fastapi = "*"
+uvicorn = { extras = ["standard"], version = "*" }
+sqlalchemy = "*"
+python-dotenv = "*"
+netifaces = "*"
+xmltodict = "*"
+pydantic = "*"
 
-[tool.setuptools]
-packages = ["device_scanner"]
+[tool.poetry.dev-dependencies]
+ruff = "*"
+
+[build-system]
+requires = ["poetry-core>=1.5.0"]
+build-backend = "poetry.core.masonry.api"
