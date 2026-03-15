@@ -80,9 +80,9 @@ docker run -p 8000:8000 lan-device-scanner
 ```
 4. **Access the API**
 
-API root: http://localhost:8000
-Interactive docs: http://localhost:8000/docs
-Frontend - In Progress
+API root: http://localhost:8000  
+Interactive docs: http://localhost:8000/docs  
+Frontend - In Progress  
 
 ---
 
@@ -98,7 +98,7 @@ If you want to run or modify the project locally without Docker:
 
 1. **Install Python 3.11 (add it to your PATH)**
    
-https://www.python.org/ftp/python/pymanager/python-manager-26.0.msix
+[Python Download](https://www.python.org/downloads/)  
 
 2. **Install Poetry**
 ```bash
@@ -110,12 +110,12 @@ pipx install poetry
 poetry install
 ```
 
-4. Run the FastAPI server
+4. **Run the FastAPI server**
 ```bash
 uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-5. Access the API
-API root: http://localhost:8000
-Interactive docs: http://localhost:8000/docs
+5. **Access the API**
+API root: http://localhost:8000  
+Interactive docs: http://localhost:8000/docs  
 
