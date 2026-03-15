@@ -1,32 +1,49 @@
-LAN Device Scanner
-License
+# LAN Device Scanner
 
-Distributed under the MIT License. See LICENSE
- for more information.
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python) ![Docker](https://img.shields.io/badge/Docker-Ready-lightgrey?logo=docker) ![FastAPI](https://img.shields.io/badge/FastAPI-High_Performance-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-Contact
+---
 
-Shmaya Peskin – @shmayaky
- – shmayaky@gmail.com
+## About The Project
 
-Project Link: https://github.com/your_username/lan-device-scanner
+**LAN Device Scanner** is a lightweight network device scanning API built with FastAPI, Poetry, and Docker. It automatically detects devices on your local network and provides structured data including:
 
-Acknowledgments
+- IP addresses
+- MAC addresses and vendor info
+- OS guesses with accuracy
+- Open ports and services
+- Device uptime and last boot
+- Device category guesses
 
-Nmap
- – for network scanning
+This project is fully containerized and works across Linux-based environments, making it portable and easy to deploy.
 
-Netifaces
- – cross-platform networking
+**Why this project exists:**
 
-FastAPI
- – web API framework
+- You shouldn’t waste time writing repeated scanning scripts.  
+- You need a DRY, reproducible, and fully containerized solution for network device scanning.  
+- It provides structured API access to device information for further integration or analysis.
 
-XMLtodict
- – XML parsing
+---
 
-Img Shields
- – badge generation
+## Built With
 
-Malven Flexbox/Grid Cheatsheets
- – layout resources
+- [Python 3.11](https://www.python.org/)
+- [FastAPI](https://fastapi.tiangolo.com/) – High-performance web API framework
+- [Poetry](https://python-poetry.org/) – Dependency management
+- [Docker](https://www.docker.com/) – Containerization
+- [Nmap](https://nmap.org/) – Network scanning engine
+- [Netifaces](https://pypi.org/project/netifaces/) – Cross-platform network interfaces
+- [XMLtodict](https://pypi.org/project/xmltodict/) – Parse nmap XML outputs
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Docker](https://www.docker.com/get-started)
+- Optional for local development:
+  - Python 3.11
+  - Poetry (`pip install poetry`)
