@@ -18,6 +18,10 @@ pydantic = "*"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "*"
+mypy = "^1.19.1"
+types-netifaces = "^0.11.0.20241025"
+types-xmltodict = "^1.0.1.20260113"
+types-sqlalchemy = "^1.4.53.38"
 
 [build-system]
 requires = ["poetry-core>=1.5.0"]

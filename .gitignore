@@ -14,7 +14,8 @@ env/
 
 # Databases
 *.db
-*.sqlite    
+*.sqlite   
+*.xml 
 
 # Logs
 *.log
